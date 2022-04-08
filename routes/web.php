@@ -17,3 +17,12 @@ Route::get('/', function () {
     abort(404);
     return view('welcome');
 });
+
+Route::get('hello', function(){
+    return view('pages.admin.dashboard');
+});
+
+Route::get('dashboard', function(){
+     return view('pages.admin.dashboard');
+});
+   
