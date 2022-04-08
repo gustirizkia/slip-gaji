@@ -14,10 +14,10 @@
         @include('includes.sidebar')
         @yield('content')
     </div>
-    <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="{{asset('dashboard/dist/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
+    <script src="{{asset('dashboard/dist/assets/js/bootstrap.bundle.min.js')}}"></script>
 
-    <script src="assets/js/main.js"></script>
+    <script src="{{asset('dashboard/dist/assets/js/main.js')}}"></script>
 </body>
 
 </html>
