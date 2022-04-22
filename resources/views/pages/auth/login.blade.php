@@ -1,4 +1,4 @@
-@extends('layouts.auth', ['title' => 'Login - SantriKoding.com'])
+@extends('layouts.auth', ['title' => 'UNPAM'])
 
 @section('content')
 
@@ -16,20 +16,22 @@
                 @csrf
                 <div class="form-group">
                     <label class="font-weight-bold text-uppercase">Email address</label>
-                    <input type="email" name="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" placeholder="Masukkan Alamat Email">
+                    <input type="email" name="email" value="{{ old('email') }}"
+                        class="form-control @error('email') is-invalid @enderror" placeholder="Masukkan Alamat Email">
                     @error('email')
-                        <div class="alert alert-danger mt-2">
-                            {{ $message }}
-                        </div>    
+                    <div class="alert alert-danger mt-2">
+                        {{ $message }}
+                    </div>
                     @enderror
                 </div>
                 <div class="form-group">
                     <label class="font-weight-bold text-uppercase">Password</label>
-                    <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Masukkan Password">
+                    <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
+                        placeholder="Masukkan Password">
                     @error('password')
-                        <div class="alert alert-danger mt-2">
-                            {{ $message }}
-                        </div>    
+                    <div class="alert alert-danger mt-2">
+                        {{ $message }}
+                    </div>
                     @enderror
                 </div>
                 <button type="submit" class="btn btn-primary">LOGIN</button>
