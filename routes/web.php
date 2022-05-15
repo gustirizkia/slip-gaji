@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +27,13 @@ Route::get('hello', function(){
 Route::get('dashboard', function(){
      return view('pages.admin.dashboard');
 });
-   
+
+Route::prefix('admin')->group(function () {
+    Route::get('/', [DashboardController::class, 'index']);
+});
+
+Route::get('home/logout', [AuthenticatedSessionController::class, 'destroy']);
+
+
+
+
