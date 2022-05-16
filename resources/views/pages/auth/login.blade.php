@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="col-md-4">
+<div class="col-md-8">
     <div class="card border-0 shadow rounded">
         <div class="card-body">
             @if (session('status'))
@@ -10,7 +10,8 @@
                 {{ session('status') }}
             </div>
             @endif
-            <h4 class="font-weight-bold">LOGIN</h4>
+            <h5 class="font-weight-bold">Selamat Datang di Aplikasi Penggajian Kopi Pojok Pamulang</h5>
+            <h5 class="font-weight-bold">LOGIN</h5>
             <hr>
             <form action="{{ route('login') }}" method="POST">
                 @csrf

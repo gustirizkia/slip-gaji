@@ -4,8 +4,7 @@
             <div class="d-flex justify-content-between">
                 <div class="logo">
                     <a href="index.html">
-                        <img src="https://seeklogo.com/images/U/universitas-pamulang-logo-E63E1DF629-seeklogo.com.png"
-                            alt="Logo" srcset="" class="img-fluid"></a>
+                        <img src="{{asset('img/logopojok.jpeg')}}" alt="Logo" srcset="" class="img-fluid"></a>
                 </div>
                 <div class="toggler">
                     <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
@@ -16,27 +15,27 @@
             <ul class="menu">
                 <li class="sidebar-title">Menu</li>
 
-                <li class="sidebar-item  active">
+                <li class="sidebar-item  {{ (request()->is('admin')) ? 'active' : '' }}">
                     <a href="index.html" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li class="sidebar-item ">
-                    <a href="index.html" class='sidebar-link'>
+                <li class="sidebar-item {{ (request()->is('admin/karyawan*')) ? 'active' : '' }}">
+                    <a href="{{ route('karyawann.index') }}" class='sidebar-link'>
                         <i class="bi bi-person-bounding-box"></i>
                         <span>Abses Karyawan</span>
                     </a>
                 </li>
-                <li class="sidebar-item ">
-                    <a href="index.html" class='sidebar-link'>
+                <li class="sidebar-item {{ (request()->is('admin/barang*')) ? 'active' : '' }}">
+                    <a href="{{ route('barang.index') }}" class='sidebar-link'>
                         <i class="bi bi-box-seam"></i>
                         <span>Manajemen Barang</span>
                     </a>
                 </li>
 
-                <li class="sidebar-item ">
-                    <a href="index.html" class='sidebar-link'>
+                <li class="sidebar-item {{ (request()->is('admin/penggajian*')) ? 'active' : '' }}">
+                    <a href="{{ route('penggajian.create') }}" class='sidebar-link'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-cash-coin" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
@@ -50,11 +49,20 @@
                         <span>Penggajian Karyawan</span>
                     </a>
                 </li>
-                <li class="sidebar-item ">
-                    <a href="index.html" class='sidebar-link'>
+                <li class="sidebar-item {{ (request()->is('admin/omset*')) ? 'active' : '' }}">
+                    <a href="{{ route('omset.index') }}" class='sidebar-link'>
                         <i class="bi bi-wallet2"></i>
                         <span>Omset</span>
                     </a>
+                </li>
+                <li class="sidebar-item ">
+                    <form action="{{ route('logout') }}" method="post">
+                        @csrf
+                        <button class='sidebar-link btn btn-link btn-block'>
+                            <i class="bi bi-box-arrow-left"></i>
+                            <span>Keluar</span>
+                        </button>
+                    </form>
                 </li>
             </ul>
         </div>

@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,12 +12,14 @@
     <title>{{ $title ?? config('app.name') }}</title>
     <style>
         body {
-            background: lightgray;
-            font-family: 'Quicksand', sans-serif
+            /* background: lightgray; */
+            font-family: 'Quicksand', sans-serif,
+                /* background-image:  */
         }
     </style>
-  </head>
-  <body>
+</head>
+
+<body style="background-image: url({{ asset('img/bg.jpeg') }}); background-size: cover;">
 
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -29,5 +32,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  </body>
+</body>
+
 </html>
