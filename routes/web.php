@@ -29,6 +29,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('home', function(){
+    return redirect('/admin');
+});
+
 Route::get('hello', function(){
     return view('pages.admin.dashboard');
 });
