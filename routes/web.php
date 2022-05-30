@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BarangController;
 use App\Http\Controllers\Admin\OmsetController;
 use App\Http\Controllers\Admin\PenggajianController;
+use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
@@ -48,6 +49,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('barang', BarangController::class);
     Route::resource('penggajian', PenggajianController::class);
     Route::resource('omset', OmsetController::class);
+
+    Route::get('laporan/barang', [LaporanController::class, 'barang'])->name('laporan-barang');
+    Route::get('laporan/barang/cetak', [LaporanController::class, 'barangCetak'])->name('cetak-laporan-barang');
 });
 
 Route::get('home/logout', [AuthenticatedSessionController::class, 'destroy']);

@@ -24,13 +24,19 @@
                 <li class="sidebar-item {{ (request()->is('admin/karyawan*')) ? 'active' : '' }}">
                     <a href="{{ route('karyawann.index') }}" class='sidebar-link'>
                         <i class="bi bi-person-bounding-box"></i>
-                        <span>Abses Karyawan</span>
+                        <span>Absen Karyawan</span>
                     </a>
                 </li>
                 <li class="sidebar-item {{ (request()->is('admin/barang*')) ? 'active' : '' }}">
                     <a href="{{ route('barang.index') }}" class='sidebar-link'>
                         <i class="bi bi-box-seam"></i>
                         <span>Manajemen Barang</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ (request()->is('admin/laporan/barang*')) ? 'active' : '' }}">
+                    <a href="{{ route('laporan-barang') }}" class='sidebar-link'>
+                        <i class="bi bi-box-seam"></i>
+                        <span>Laporan Barang</span>
                     </a>
                 </li>
 
