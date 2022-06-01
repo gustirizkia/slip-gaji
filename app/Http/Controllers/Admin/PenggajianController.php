@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AbsenKaryawan;
 use App\Models\Penggajian;
 use Illuminate\Http\Request;
 
@@ -16,9 +17,11 @@ class PenggajianController extends Controller
     public function index()
     {
         $data = Penggajian::orderBy('id', 'desc')->get();
+        $karyawan = AbsenKaryawan::get();
 
         return view('pages.admin.penggajian.index', [
-            'items' => $data
+            'items' => $data,
+            'karyawan' => $karyawan
         ]);
     }
 
@@ -30,9 +33,11 @@ class PenggajianController extends Controller
     public function create()
     {
         $data = Penggajian::orderBy('id', 'desc')->get();
+        $karyawan = AbsenKaryawan::get();
 
         return view('pages.admin.penggajian.tambah', [
-            'items' => $data
+            'items' => $data,
+            'karyawan' => $karyawan
         ]);
     }
 

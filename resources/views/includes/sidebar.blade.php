@@ -3,7 +3,7 @@
         <div class="sidebar-header">
             <div class="d-flex justify-content-between">
                 <div class="logo">
-                    <a href="index.html">
+                    <a href="/admin">
                         <img src="{{asset('img/logopojok.jpeg')}}" alt="Logo" srcset="" class="img-fluid"></a>
                 </div>
                 <div class="toggler">

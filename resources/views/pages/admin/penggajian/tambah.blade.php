@@ -10,7 +10,13 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label for="">Nama Karyawan</label>
-                            <input type="text" class="form-control" name="nama_karyawan" required>
+                            <select name="nama_karyawan" class="form-select" required>
+                                <option value="">Pilih Karyawan</option>
+                                @foreach ($karyawan as $item)
+                                <option value="{{ $item->nama }}">{{ $item->nama }}</option>
+                                @endforeach
+
+                            </select>
                         </div>
                         <div class="col-md-6">
                             <label for="">Gaji Pokok</label>
