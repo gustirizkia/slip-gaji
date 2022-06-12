@@ -3,14 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\AbsenKaryawan;
-use App\Models\Penggajian;
-use App\Models\User;
-use Carbon\Carbon;
+use App\Models\Divisi;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class PenggajianController extends Controller
+class DivisiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,13 +15,10 @@ class PenggajianController extends Controller
      */
     public function index()
     {
-        // dd("OK");
-        $data = Penggajian::orderBy('id', 'desc')->get();
-        $karyawan = AbsenKaryawan::get();
+        $data = Divisi::orderBy('id', 'desc')->get();
 
-        return view('pages.admin.penggajian.index', [
-            'items' => $data,
-            'karyawan' => $karyawan
+        return view('pages.admin.divisi.index', [
+            'items' => $data
         ]);
     }
 
@@ -36,23 +29,7 @@ class PenggajianController extends Controller
      */
     public function create()
     {
-        $month = Carbon::now()->month;
-        $tes = DB::table('absens')->whereMonth('created_at', $month)->first();
-        // dd($month, $tes);
-        $user = User::with('divisi', 'absen')->withCount(['absen' => function($query) use($month){
-            return $query->whereMonth('created_at', $month);
-        }])
-        // ->orderBy('id', 'desc')
-        ->get();
-
-        $data = Penggajian::orderBy('id', 'desc')->get();
-        $karyawan = AbsenKaryawan::get();
-
-        return view('pages.admin.penggajian.tambah', [
-            'items' => $data,
-            'karyawan' => $karyawan,
-            'user' => $user
-        ]);
+        //
     }
 
     /**
@@ -65,10 +42,9 @@ class PenggajianController extends Controller
     {
         $data = $request->except(['_token']);
 
-        $insert = Penggajian::create($data);
+        $insert = Divisi::create($data);
 
         return redirect()->back()->with('success', 'berhasil tambah data');
-
     }
 
     /**
@@ -90,7 +66,11 @@ class PenggajianController extends Controller
      */
     public function edit($id)
     {
-        //
+        $item = Divisi::find($id);
+
+        return view('pages.admin.divisi.edit', [
+            'item' => $item
+        ]);
     }
 
     /**
@@ -102,7 +82,10 @@ class PenggajianController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->except(['_token']);
+        $insert = Divisi::find($id)->update($data);
+
+        return redirect()->route('divisi.index')->with('success', 'berhasil ubah data');
     }
 
     /**
@@ -113,8 +96,8 @@ class PenggajianController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
+        $data = Divisi::where('id', $id)->delete();
 
-    
+        return redirect()->back()->with('success', 'berhasil hapus data');
+    }
 }

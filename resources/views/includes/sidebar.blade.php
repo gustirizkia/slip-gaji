@@ -13,7 +13,19 @@
         </div>
         <div class="sidebar-menu">
             <ul class="menu">
-                <li class="sidebar-title">Menu</li>
+                @if (auth()->user()->roles !== 'admin')
+                <li class="sidebar-title">Menu Karyawan</li>
+                <li class="sidebar-item  {{ (request()->is('admin/absen*')) ? 'active' : '' }}">
+                    <a href="{{ route('absen.index') }}" class='sidebar-link'>
+                        <i class="bi bi-person-bounding-box"></i>
+                        <span>Absen</span>
+                    </a>
+                </li>
+                @endif
+
+                @if (auth()->user()->roles === 'admin')
+
+                <li class="sidebar-title">Menu Admin</li>
 
                 <li class="sidebar-item  {{ (request()->is('admin')) ? 'active' : '' }}">
                     <a href="index.html" class='sidebar-link'>
@@ -21,12 +33,24 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li class="sidebar-item {{ (request()->is('admin/karyawan*')) ? 'active' : '' }}">
+                <li class="sidebar-item {{ (request()->is('admin/divisi*')) ? 'active' : '' }}">
+                    <a href="{{ route('divisi.index') }}" class='sidebar-link'>
+                        <i class="bi bi-award-fill"></i>
+                        <span>Divisi</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ (request()->is('admin/v2-karyawan*')) ? 'active' : '' }}">
+                    <a href="{{ route('v2-karyawan.index') }}" class='sidebar-link'>
+                        <i class="bi bi-person-bounding-box"></i>
+                        <span>Karyawan</span>
+                    </a>
+                </li>
+                {{-- <li class="sidebar-item  {{ (request()->is('admin/karyawan*')) ? 'active' : '' }}">
                     <a href="{{ route('karyawann.index') }}" class='sidebar-link'>
                         <i class="bi bi-person-bounding-box"></i>
                         <span>Absen Karyawan</span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="sidebar-item {{ (request()->is('admin/barang*')) ? 'active' : '' }}">
                     <a href="{{ route('barang.index') }}" class='sidebar-link'>
                         <i class="bi bi-box-seam"></i>
@@ -61,6 +85,10 @@
                         <span>Omset</span>
                     </a>
                 </li>
+
+                @endif
+
+
                 <li class="sidebar-item ">
                     <form action="{{ route('logout') }}" method="post">
                         @csrf

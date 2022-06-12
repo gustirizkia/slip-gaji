@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -39,6 +40,24 @@ class LaporanController extends Controller
         return $pdf->download('laporan-pemasukan-barang.pdf');
 
         return $pdf->stream();
+
+    }
+
+    public function printGaji(){
+        $month = Carbon::now()->month;
+
+        $user = User::with('divisi', 'absen')->withCount(['absen' => function($query) use($month){
+            return $query->whereMonth('created_at', $month);
+        }])->get();
+
+        // dd($user);
+
+        $pdf = PDF::loadView('pages.laporan.gaji', [
+            'user' => $user
+        ]);
+
+        return $pdf->stream();
+        return $pdf->download('laporan-pemasukan-barang.pdf');
 
     }
 }

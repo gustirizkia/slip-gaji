@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\AbsenKaryawan;
-use App\Models\Penggajian;
+use App\Models\Divisi;
+use App\Models\Karyawan;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
-class PenggajianController extends Controller
+class KaryawanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,13 +18,12 @@ class PenggajianController extends Controller
      */
     public function index()
     {
-        // dd("OK");
-        $data = Penggajian::orderBy('id', 'desc')->get();
-        $karyawan = AbsenKaryawan::get();
+        $data = User::with('divisi')->orderBy('id', 'desc')->get();
+        $divisi = Divisi::get();
 
-        return view('pages.admin.penggajian.index', [
+        return view('pages.admin.karyawanv2.index', [
             'items' => $data,
-            'karyawan' => $karyawan
+            'divisi' => $divisi
         ]);
     }
 
@@ -36,23 +34,7 @@ class PenggajianController extends Controller
      */
     public function create()
     {
-        $month = Carbon::now()->month;
-        $tes = DB::table('absens')->whereMonth('created_at', $month)->first();
-        // dd($month, $tes);
-        $user = User::with('divisi', 'absen')->withCount(['absen' => function($query) use($month){
-            return $query->whereMonth('created_at', $month);
-        }])
-        // ->orderBy('id', 'desc')
-        ->get();
-
-        $data = Penggajian::orderBy('id', 'desc')->get();
-        $karyawan = AbsenKaryawan::get();
-
-        return view('pages.admin.penggajian.tambah', [
-            'items' => $data,
-            'karyawan' => $karyawan,
-            'user' => $user
-        ]);
+        //
     }
 
     /**
@@ -65,10 +47,16 @@ class PenggajianController extends Controller
     {
         $data = $request->except(['_token']);
 
-        $insert = Penggajian::create($data);
+        $pass = Hash::make($request->password);
+
+        $user = User::create([
+            'password' => $pass,
+            'email' => $request->email,
+            'name' => $request->name,
+            'divisi_id' => $request->divisi_id
+        ]);
 
         return redirect()->back()->with('success', 'berhasil tambah data');
-
     }
 
     /**
@@ -90,7 +78,12 @@ class PenggajianController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Barang::findOrFail($id);
+        // dd($data);
+
+        return view('pages.admin.barang.edit', [
+            'item' => $data
+        ]);
     }
 
     /**
@@ -102,7 +95,11 @@ class PenggajianController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->except(['_token']);
+        $insert = Barang::find($id)->update($data);
+
+        return redirect()->route('barang.index')->with('success', 'berhasil ubah data');
+
     }
 
     /**
@@ -113,8 +110,8 @@ class PenggajianController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
+        $data = Barang::find($id)->delete();
 
-    
+        return redirect()->back()->with('success', 'berhasil hapus data');
+    }    //
 }

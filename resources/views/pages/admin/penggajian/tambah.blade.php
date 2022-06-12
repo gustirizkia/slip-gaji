@@ -5,53 +5,13 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <form action="{{ route('penggajian.store') }}" method="POST">
-                    @csrf
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="">Nama Karyawan</label>
-                            <select name="nama_karyawan" class="form-select" required>
-                                <option value="">Pilih Karyawan</option>
-                                @foreach ($karyawan as $item)
-                                <option value="{{ $item->nama }}">{{ $item->nama }}</option>
-                                @endforeach
-
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="">Gaji Pokok</label>
-                            <input type="number" class="form-control" name="gaji_pokok" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="">Jenis Kelamin</label>
-                            <select name="jenis_kelamin" id="" class="form-select" required>
-                                <option value="Laki-laki">Laki-laki</option>
-                                <option value="Prempuan">Prempuan</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="">Jam Lembur</label>
-                            <input type="number" class="form-control" name="jam_lembur" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="">Jabatan</label>
-                            <input type="text" class="form-control" name="jabatan" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="">Upah Lembur</label>
-                            <input type="text" class="form-control" name="upah_lembur" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="">Total Gaji</label>
-                            <input type="number" class="form-control" name="total_gaji" required>
-                        </div>
-                        <div class="col-md-12 mt-3">
-                            <button class="btn btn-success">Hitung</button>
-                            <button class="btn btn-secondary">Batal</button>
-                        </div>
-                    </div>
-                </form>
-
+                <a href="{{ route('laporan-gaji') }}" class="btn btn-danger">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-filetype-pdf" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z" />
+                    </svg>
+                    Export PDF</a>
                 <!-- table hover -->
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
@@ -59,13 +19,9 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Karyawan</th>
-                                <th>Jenis Kelamin</th>
-                                <th>Jabatan</th>
-                                <th>Gaji Pokok</th>
-                                <th>Jam Lembur</th>
-                                <th>Upah</th>
-                                <th>Total Gaji di Terima</th>
-                                <th>Action</th>
+                                <th>Divisi</th>
+                                <th>Total Gaji Bulan ini</th>
+                                <th>Total Absen</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -73,33 +29,17 @@
                             $no = 1;
                             @endphp
 
-                            @forelse ($items as $item)
+                            @forelse ($user as $item)
+                            @php
+                            $gaji = $item->absen_count*$item->divisi->gaji;
+                            @endphp
                             <tr>
                                 <td>{{ $no }}</td>
-                                <td>{{ $item->nama_karyawan }}</td>
-                                <td>{{ $item->jenis_kelamin }}</td>
-                                <td>{{ $item->jabatan }}</td>
-                                <td>Rp.{{ number_format($item->gaji_pokok) }}</td>
-                                <td>{{ $item->jam_lembur }} Jam</td>
-                                <td>Rp.{{ number_format($item->upah_lembur) }}</td>
-                                <td>Rp.{{ number_format($item->total_gaji) }}</td>
-                                <td>
-                                    <div class="d-flex justify-content-around">
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->divisi->nama_divisi }}</td>
+                                <td>Rp.{{ number_format($gaji) }}</td>
+                                <td>{{ $item->absen_count }}</td>
 
-                                        <a href="{{ route('barang.edit', $item->id) }}" class="btn btn-success btn-sm">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
-                                        <form action="{{ route('barang.destroy', $item->id) }}" method="POST">
-                                            @method('delete')
-                                            @csrf
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Yakin hapus data ?')">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-
-                                </td>
                             </tr>
                             @php
                             $no++;

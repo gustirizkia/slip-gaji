@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'divisi_id'
     ];
 
     /**
@@ -41,4 +42,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function divisi(){
+        return $this->belongsTo('App\Models\Divisi', 'divisi_id');
+    }
+
+    public function absen(){
+        return $this->hasMany('App\Models\Absen', 'karyawan_id');
+    }
 }
