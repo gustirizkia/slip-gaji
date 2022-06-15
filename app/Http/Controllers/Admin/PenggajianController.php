@@ -39,11 +39,13 @@ class PenggajianController extends Controller
         $month = Carbon::now()->month;
         $tes = DB::table('absens')->whereMonth('created_at', $month)->first();
         // dd($month, $tes);
-        $user = User::with('divisi', 'absen')->withCount(['absen' => function($query) use($month){
-            return $query->whereMonth('created_at', $month);
-        }])
-        // ->orderBy('id', 'desc')
-        ->get();
+        $user = User::with('divisi', 'absen')
+            ->where('roles', '!=', 'admin')
+            ->withCount(['absen' => function ($query) use ($month) {
+                return $query->whereMonth('created_at', $month);
+            }])
+            // ->orderBy('id', 'desc')
+            ->get();
 
         $data = Penggajian::orderBy('id', 'desc')->get();
         $karyawan = AbsenKaryawan::get();
@@ -68,7 +70,6 @@ class PenggajianController extends Controller
         $insert = Penggajian::create($data);
 
         return redirect()->back()->with('success', 'berhasil tambah data');
-
     }
 
     /**
@@ -115,6 +116,4 @@ class PenggajianController extends Controller
     {
         //
     }
-
-    
 }

@@ -21,28 +21,28 @@
     </thead>
     <tbody>
         @php
-        $no = 1;
+            $no = 1;
         @endphp
 
         @forelse ($user as $item)
-        @php
-        $gaji = $item->absen_count*$item->divisi->gaji;
-        @endphp
-        <tr>
-            <td>{{ $no }}</td>
-            <td>{{ $item->name }}</td>
-            <td>{{ $item->divisi->nama_divisi }}</td>
-            <td>Rp.{{ number_format($gaji) }}</td>
-            <td>{{ $item->absen_count }}</td>
+            @php
+                $gaji = $item->absen_count * $item->divisi->gaji;
+            @endphp
+            <tr>
+                <td>{{ $no }}</td>
+                <td>{{ $item->name }}</td>
+                <td>{{ $item->nama_divisi }}</td>
+                <td>Rp.{{ number_format($gaji) }}</td>
+                <td>{{ $item->absen_count }}</td>
 
-        </tr>
-        @php
-        $no++;
-        @endphp
+            </tr>
+            @php
+                $no++;
+            @endphp
         @empty
-        <tr>
-            <td colspan="10" class="text-center">Data kosong Te</td>
-        </tr>
+            <tr>
+                <td colspan="10" class="text-center">Data kosong Te</td>
+            </tr>
         @endforelse
 
         </td>

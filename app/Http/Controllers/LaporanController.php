@@ -11,7 +11,8 @@ use Carbon\Carbon;
 
 class LaporanController extends Controller
 {
-    public function barang(){
+    public function barang()
+    {
         $data = Barang::orderBy('tanggal', 'desc')->get();
 
         $dari = Barang::orderBy('tanggal', 'asc')->first();
@@ -30,7 +31,8 @@ class LaporanController extends Controller
         // return $pdf->stream();
 
     }
-    public function barangCetak(){
+    public function barangCetak()
+    {
         $data = Barang::orderBy('tanggal', 'desc')->get();
 
         $pdf = PDF::loadView('pages.laporan.cetak-barang', [
@@ -40,15 +42,17 @@ class LaporanController extends Controller
         return $pdf->download('laporan-pemasukan-barang.pdf');
 
         return $pdf->stream();
-
     }
 
-    public function printGaji(){
+    public function printGaji()
+    {
         $month = Carbon::now()->month;
 
-        $user = User::with('divisi', 'absen')->withCount(['absen' => function($query) use($month){
-            return $query->whereMonth('created_at', $month);
-        }])->get();
+        $user = User::with('divisi', 'absen')
+            ->where('roles', '!=', 'admin')
+            ->withCount(['absen' => function ($query) use ($month) {
+                return $query->whereMonth('created_at', $month);
+            }])->get();
 
         // dd($user);
 
@@ -58,6 +62,5 @@ class LaporanController extends Controller
 
         return $pdf->stream();
         return $pdf->download('laporan-pemasukan-barang.pdf');
-
     }
 }

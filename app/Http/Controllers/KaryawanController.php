@@ -8,6 +8,7 @@ use App\Models\Karyawan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use DB;
 
 class KaryawanController extends Controller
 {
@@ -18,7 +19,9 @@ class KaryawanController extends Controller
      */
     public function index()
     {
-        $data = User::with('divisi')->orderBy('id', 'desc')->get();
+        $data = DB::table('users')->join('divisis', 'users.divisi_id', 'divisis.id')
+            ->orderBy('users.id', 'desc')->get();
+        // dd($data);
         $divisi = Divisi::get();
 
         return view('pages.admin.karyawanv2.index', [
@@ -99,7 +102,6 @@ class KaryawanController extends Controller
         $insert = Barang::find($id)->update($data);
 
         return redirect()->route('barang.index')->with('success', 'berhasil ubah data');
-
     }
 
     /**
